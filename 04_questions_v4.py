@@ -1,86 +1,156 @@
+"""Based on 04_questions_v3
+Added input for hard/easy mode just for testing sake
+Added second list of questions and answers for hard mode which includes 11-20 in Maori
+Defined questions and answers in a dictionary
+Implemented new score system for hard mode
+"""
+
+
 import random
 
-# Define the questions and answers for easy mode in a dictionary
-easy_questions = {
-    "1": "¿Cómo se dice 'one' en español?",
-    "2": "¿Cómo se dice 'two' en español?",
-    "3": "¿Cómo se dice 'three' en español?",
-    "4": "¿Cómo se dice 'four' en español?",
-    "5": "¿Cómo se dice 'five' en español?",
-    "6": "¿Cómo se dice 'six' en español?",
-    "7": "¿Cómo se dice 'seven' en español?",
-    "8": "¿Cómo se dice 'eight' en español?",
-    "9": "¿Cómo se dice 'nine' en español?",
-    "10": "¿Cómo se dice 'ten' en español?"
+# Define questions and answers in a dictionary
+questions = {
+    "1": "What is 1 in Maori?",
+    "2": "What is 2 in Maori?",
+    "3": "What is 3 in Maori?",
+    "4": "What is 4 in Maori?",
+    "5": "What is 5 in Maori?",
+    "6": "What is 6 in Maori?",
+    "7": "What is 7 in Maori?",
+    "8": "What is 8 in Maori?",
+    "9": "What is 9 in Maori?",
+    "10": "What is 10 in Maori?"
 }
 
-easy_answers = {
-    "1": "uno",
-    "2": "dos",
-    "3": "tres",
-    "4": "cuatro",
-    "5": "cinco",
-    "6": "seis",
-    "7": "siete",
-    "8": "ocho",
-    "9": "nueve",
-    "10": "diez"
+answers = {
+    "1": "tahi",
+    "2": "rua",
+    "3": "toru",
+    "4": "wha",
+    "5": "rima",
+    "6": "ono",
+    "7": "whitu",
+    "8": "waru",
+    "9": "iwa",
+    "10": "tekau"
 }
 
-# Define the questions and answers for hard mode in a dictionary
+# Define the hard questions and answers in a dictionary
 hard_questions = {
-    "1": "¿Cómo se dice 'eleven' en español?",
-    "2": "¿Cómo se dice 'twelve' en español?",
-    "3": "¿Cómo se dice 'thirteen' en español?",
-    "4": "¿Cómo se dice 'fourteen' en español?",
-    "5": "¿Cómo se dice 'fifteen' en español?",
-    "6": "¿Cómo se dice 'sixteen' en español?",
-    "7": "¿Cómo se dice 'seventeen' en español?",
-    "8": "¿Cómo se dice 'eighteen' en español?",
-    "9": "¿Cómo se dice 'nineteen' en español?",
-    "10": "¿Cómo se dice 'twenty' en español?"
+    "1": "What is 11 in Maori?",
+    "2": "What is 12 in Maori?",
+    "3": "What is 13 in Maori?",
+    "4": "What is 14 in Maori?",
+    "5": "What is 15 in Maori?",
+    "6": "What is 16 in Maori?",
+    "7": "What is 17 in Maori?",
+    "8": "What is 18 in Maori?",
+    "9": "What is 19 in Maori?",
+    "10": "What is 20 in Maori?"
 }
 
 hard_answers = {
-    "1": "once",
-    "2": "doce",
-    "3": "trece",
-    "4": "catorce",
-    "5": "quince",
-    "6": "dieciséis",
-    "7": "diecisiete",
-    "8": "dieciocho",
-    "9": "diecinueve",
-    "10": "veinte"
+    "1": "tekau ma tahi",
+    "2": "tekau ma rua",
+    "3": "tekau ma toru",
+    "4": "tekau ma wha",
+    "5": "tekau ma rima",
+    "6": "tekau ma ono",
+    "7": "tekau ma whitu",
+    "8": "tekau ma waru",
+    "9": "tekau ma iwa",
+    "10": "rua tekau"
 }
 
-# Get the user's mode selection
-mode = input("Seleccione su modo de juego ('easy' o 'hard'): ")
 
-# Check if the user selected easy or hard mode
-if mode.lower() == "easy":
+# Get the user's mode selection
+mode = ""
+while mode.lower() != "easy" and mode.lower() != "hard" and mode.lower() != "e" and mode.lower() != "h":
+    mode = input("Do you want to play on easy mode (e) or hard mode (h)? ")
+
+# Make score variable
+score = 0
+
+# If selected easy, use easy questions
+if mode.lower() == "easy" or mode.lower() == "e":
+    # Tell user what mode they are on
+    print("You are playing on Easy Mode")
     # Shuffle the order of the questions
-    question_order = list(easy_questions.keys())
+    question_order = list(questions.keys())
     random.shuffle(question_order)
 
     # Loop through each question in the shuffled order
     for question_num in question_order:
         # Ask the question
-        print(easy_questions[question_num])
+        print(questions[question_num])
 
         # Get the user's answer
         user_answer = input("> ")
 
         # Check the user's answer
-        while user_answer.lower() != easy_answers[question_num]:
-            # If the user's answer is wrong, re-ask the question
-            print("Incorrecto. Inténtalo de nuevo.")
-            user_answer = input("> ")
+        if user_answer.lower() == answers[question_num]:
+            # If the user's answer is correct on the first try, add 2 to the score
+            score += 2
+            print("Correct. Nice job!")
+        else:
+            # If the user's answer is incorrect, try again
+            # Give them a hint, telling them the first letter of the answer
+            print("Incorrect. Here's a hint: The first letter of the correct answer is", answers[question_num][0])
 
-        # If the user's answer is correct, move on to the next question
-        print("Correcto. Siguiente pregunta.")
+            # Give the user another chance to answer the question correctly
+            while user_answer.lower() != answers[question_num]:
+                user_answer = input("> ")
 
-else:
+                # If the user's answer is correct on the subsequent try, break the loop
+                if user_answer.lower() == answers[question_num]:
+                    print("Correct. Nice job!")
+                    break
+
+    # If score is below 0, the score is just 0
+    if score < 0:
+        score = 0
+
+# If selected hard, use hard questions
+elif mode.lower() == "hard" or mode.lower() == "h":
+    # Tell user what mode they are on
+    print("You are playing on Hard Mode")
     # Shuffle the order of the questions
-    question_order = list(hard_questions.keys())
-    random
+    hard_questions_order = list(hard_questions.keys())
+    random.shuffle(hard_questions_order)
+
+    # Loop through each question in the shuffled order
+    for hard_question_num in hard_questions_order:
+        # Ask the question
+        print(hard_questions[hard_question_num])
+
+        # Get the user's answer
+        user_answer = input("> ")
+
+        # Check the user's answer
+        if user_answer.lower() == hard_answers[hard_question_num]:
+            # If the user's answer is correct on the first try, add 3 to the score
+            score += 3
+            print("Correct. Nice job!")
+        else:
+            # If the user's answer is incorrect, try again
+            # Give them a hint, telling them the first letter of the answer
+            print("Incorrect. Here's a hint: The first letter of the correct answer is",
+                  hard_answers[hard_question_num][0])
+            # Take away 1 point
+            score -= 1
+
+            # Give the user another chance to answer the question correctly
+            while user_answer.lower() != hard_answers[hard_question_num]:
+                user_answer = input("> ")
+
+                # If the user's answer is correct on the subsequent try, break the loop
+                if user_answer.lower() == hard_answers[hard_question_num]:
+                    print("Correct. Nice job!")
+                    break
+
+    # If score is below 0, the score is just 0
+    if score < 0:
+        score = 0
+
+# Display the final score
+print(f"You finished with a score of {score}")

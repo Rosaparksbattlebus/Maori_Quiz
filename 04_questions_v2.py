@@ -3,6 +3,7 @@ Created a variable for a random order for the questions to be asked in.
 Printed each question and change answer to lowercase so uppercase answers are valid.
 Ask again when the answer is incorrect.
 Continue when answers are correct until all questions have been asked.
+Defined question and answers with .keys
 """
 
 import random
