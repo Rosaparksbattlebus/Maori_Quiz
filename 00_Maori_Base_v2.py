@@ -1,5 +1,8 @@
-"""Placed all the components together, but isn't polished
-Haven't written instructions and product isn't finished
+"""Based on 00_Maori_Base_v1
+Written instructions
+Removed mode input
+Adjusted difficulty variable and applied it to the questions component
+Final product functions as expected but isn't polished
 """
 
 # Functions go here
@@ -37,11 +40,15 @@ def yes_no(question):
 
 # Instructions
 def instructions():
-    print("---- How to Play ----")
+    print(formatter("*", "How to play"))
     print()
-    print("The rules of the quiz will go here")
+    print("Enter a number from 1-10 on how confident you are with Maori numbers")
     print()
-    print("Program continues")
+    print("The quiz will now start. Answer 10 questions about Maori numbers")
+    print("If you get it wrong, don't worry! You will receive a hint.")
+    print()
+    print("You will get points when you get them correct first try. ")
+    print("The Goal of the game is to get the most points. Good luck!")
     print()
 
 
@@ -52,23 +59,21 @@ if played_before.lower() == "no" or played_before.lower() == "n":
 
 
 # Difficulty
-def get_difficulty():
+def get_difficulty(question):
     # Set loop
     loop = True
     while loop:
         # Ask user how confident they are with Maori numbers
-        diff = input("From 1-10, 1 being low, how confident are you with Maori numbers: ")
+        diff = input(question)
         # Check for errors with "try"
         try:
             diff = int(diff)
             if 6 <= diff <= 10:
                 loop = False
-                # Tell user what mode they are on
-                print("You are playing on advanced mode")
+                return True
             elif 1 <= diff <= 5:
                 loop = False
-                # Tell user what mode they are on
-                print("You are playing on normal mode")
+                return False
             else:
                 # If it is above or below the range (1-10), ask again
                 print("Please enter an integer between 1 and 10")
@@ -77,7 +82,7 @@ def get_difficulty():
             print("Please enter an integer between 1 and 10")
 
 
-get_difficulty()
+difficulty = get_difficulty("How confident are you with Maori numbers (1-10)? ")
 
 # Questions
 # Define questions and answers in a dictionary
@@ -134,16 +139,11 @@ hard_answers = {
     "10": "rua tekau"
 }
 
-# Get the user's mode selection
-mode = ""
-while mode.lower() != "easy" and mode.lower() != "hard" and mode.lower() != "e" and mode.lower() != "h":
-    mode = input("Do you want to play on easy mode (e) or hard mode (h)? ")
-
 # Make score variable
 score = 0
 
 # If selected easy, use easy questions
-if mode.lower() == "easy" or mode.lower() == "e":
+if not difficulty:
     # Tell user what mode they are on
     print("You are playing on Easy Mode")
     # Shuffle the order of the questions
@@ -182,7 +182,7 @@ if mode.lower() == "easy" or mode.lower() == "e":
         score = 0
 
 # If selected hard, use hard questions
-elif mode.lower() == "hard" or mode.lower() == "h":
+elif difficulty:
     # Tell user what mode they are on
     print("You are playing on Hard Mode")
     # Shuffle the order of the questions

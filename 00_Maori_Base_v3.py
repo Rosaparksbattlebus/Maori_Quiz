@@ -1,5 +1,5 @@
-"""Placed all the components together, but isn't polished
-Haven't written instructions and product isn't finished
+"""Final code
+Finished Maori Quiz
 """
 
 # Functions go here
@@ -12,6 +12,10 @@ def formatter(symbol, text):
     formatted_text = f"{sides} {text} {sides}"
     top_bottom = symbol * len(formatted_text)
     return f"{top_bottom}\n{formatted_text}\n{top_bottom}"
+
+
+# Welcome screen
+print(formatter("-", "Welcome to the Maori Numbers Quiz!"))
 
 
 # Yes/no checker
@@ -37,11 +41,15 @@ def yes_no(question):
 
 # Instructions
 def instructions():
-    print("---- How to Play ----")
+    print(formatter("*", "            How to play              "))
     print()
-    print("The rules of the quiz will go here")
+    print("Enter a number from 1-10 on how confident you are with Maori numbers")
     print()
-    print("Program continues")
+    print("The quiz will now start. Answer 10 questions about Maori numbers")
+    print("If you get it wrong, don't worry! You will receive a hint.")
+    print()
+    print("You will get points when you get them correct first try. ")
+    print("The Goal of the game is to get the most points. Good luck!")
     print()
 
 
@@ -52,23 +60,21 @@ if played_before.lower() == "no" or played_before.lower() == "n":
 
 
 # Difficulty
-def get_difficulty():
+def get_difficulty(question):
     # Set loop
     loop = True
     while loop:
         # Ask user how confident they are with Maori numbers
-        diff = input("From 1-10, 1 being low, how confident are you with Maori numbers: ")
+        diff = input(question)
         # Check for errors with "try"
         try:
             diff = int(diff)
             if 6 <= diff <= 10:
                 loop = False
-                # Tell user what mode they are on
-                print("You are playing on advanced mode")
+                return True
             elif 1 <= diff <= 5:
                 loop = False
-                # Tell user what mode they are on
-                print("You are playing on normal mode")
+                return False
             else:
                 # If it is above or below the range (1-10), ask again
                 print("Please enter an integer between 1 and 10")
@@ -77,7 +83,7 @@ def get_difficulty():
             print("Please enter an integer between 1 and 10")
 
 
-get_difficulty()
+difficulty = get_difficulty("How confident are you with Maori numbers (1-10)? ")
 
 # Questions
 # Define questions and answers in a dictionary
@@ -134,18 +140,13 @@ hard_answers = {
     "10": "rua tekau"
 }
 
-# Get the user's mode selection
-mode = ""
-while mode.lower() != "easy" and mode.lower() != "hard" and mode.lower() != "e" and mode.lower() != "h":
-    mode = input("Do you want to play on easy mode (e) or hard mode (h)? ")
-
 # Make score variable
 score = 0
 
 # If selected easy, use easy questions
-if mode.lower() == "easy" or mode.lower() == "e":
+if not difficulty:
     # Tell user what mode they are on
-    print("You are playing on Easy Mode")
+    print("You are playing on EASY mode")
     # Shuffle the order of the questions
     question_order = list(questions.keys())
     random.shuffle(question_order)
@@ -182,9 +183,9 @@ if mode.lower() == "easy" or mode.lower() == "e":
         score = 0
 
 # If selected hard, use hard questions
-elif mode.lower() == "hard" or mode.lower() == "h":
+elif difficulty:
     # Tell user what mode they are on
-    print("You are playing on Hard Mode")
+    print("You are playing on HARD mode")
     # Shuffle the order of the questions
     hard_questions_order = list(hard_questions.keys())
     random.shuffle(hard_questions_order)
@@ -204,9 +205,7 @@ elif mode.lower() == "hard" or mode.lower() == "h":
             print("Correct. Nice job!")
         else:
             # If the user's answer is incorrect, try again
-            # Give them a hint, telling them the first letter of the answer
-            print("Incorrect. Here's a hint: The first letter of the correct answer is",
-                  hard_answers[hard_question_num][0])
+            print("Incorrect. Try again")
             # Take away 1 point
             score -= 1
 
@@ -223,5 +222,14 @@ elif mode.lower() == "hard" or mode.lower() == "h":
     if score < 0:
         score = 0
 
+# If perfect score, give decorated statement
+if score == 30:
+    print()
+    print(formatter('!', 'Wow, you got a perfect score of 30!'))
 # Display the final score
-print(f"You finished with a score of {score}")
+else:
+    print(f"You finished with a score of {score}")
+
+# Goodbye
+print()
+print("Thank you for playing the Maori Numbers Quiz. Goodbye!")

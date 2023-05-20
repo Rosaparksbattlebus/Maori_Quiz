@@ -34,7 +34,7 @@ def instructions():
 
 
 # Main routine go here...
-played_before = yes_no("Have you played this quiz before? ")
+played_before = yes_no("Have you played this quiz bnefore? ")
 
 if played_before == "No":
     instructions()
